@@ -23,4 +23,3 @@ class Pais:
 
     def agregarProvincia(self, provincia: Provincia):
         self.provincia.append(provincia)
-    

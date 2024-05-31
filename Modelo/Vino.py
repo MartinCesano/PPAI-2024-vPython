@@ -53,12 +53,21 @@ class Vino:
             return puntaje/contadorReseña
         else:
             return 0
-        
+    #obtenerBodega: Obtiene el nombre y la ubicacion de la bodega del vino.
+        #Args: 
+            #ninguno
+        #Return: 
+            #list [nombreBodega, ubicacionBodega]: devuelve el nombre y la ubicacion de la bodega del vino.
     def obtenerBodega(self) -> Bodega:
         nombreBodega = self.bodega.getNombre()
-        ubicacionBodega = self.bodega.getUbicacion()
+        ubicacionBodega = self.bodega.obtenerUbicacion()
         return [nombreBodega, ubicacionBodega]
-
+    
+    #obtenerVarietal: Obtiene el nombre y la ubicacion de la bodega del vino.
+        #Args: 
+            #ninguno
+        #Return: 
+            #list [varietalDescripcion]: devuelve las descripciones del varietal que tiene el vino.
     def obtenerVarietal(self) -> Varietal:
         varietalDescripcion = []
         for unvarietal in self.varietal:

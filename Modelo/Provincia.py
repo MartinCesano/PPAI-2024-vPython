@@ -15,7 +15,7 @@ class Provincia:
         return self.nombre
 
     def obtenerPais(self) -> Pais:
-        return self.pais
+        return self.pais.getNombre()
 
     def getRegiones(self) -> List[RegionVitivinicola]:
         return self.region

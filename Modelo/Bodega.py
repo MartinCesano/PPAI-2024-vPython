@@ -29,8 +29,7 @@ class Bodega:
     def obtenerUbicacion(self) -> List[str]:
         nombreRegionVitivinicola = self.regionVitivinicola.getNombre()
         [provincia, pais] = self.regionVitivinicola.getProvincia()
-
-        return self.coordenadasUbicacion
+        return [nombreRegionVitivinicola, provincia, pais]
 
     def getPeriodoActualizacion(self) -> str:
         return self.periodoActualizacion

@@ -1,19 +1,21 @@
 import json
+import pandas as pd
 from datetime import datetime
 from Interfaz.PantallaGenerarReporteRankingVino import PantallaGenerarReporteRankingVino
 from Modelo.Vino import Vino # type: ignore
 
 class GestorGenerarReporteRankingVino:
     def __init__(self):
-        tiposReportes = ["Reseñas normales", "Reseñas de Sommelier", "Reseñas de Amigos"]
-        vinosFiltradosPorResena = list[Vino]
-        vinosFiltradosPorResenaConPromedio = []
-        fechaInicio = datetime
-        fechaFin = datetime
-        datosVinosRankeados = json
+        self.tiposReportes = ["Reseñas normales", "Reseñas de Sommelier", "Reseñas de Amigos"]
+        self.tipoVisualizacion = ["Excel", "PDF", "Pantalla"] 
+        self.vinosFiltradosPorResena = list[Vino]
+        self.vinosFiltradosPorResenaConPromedio = []
+        self.fechaInicio = datetime
+        self.fechaFin = datetime
+        self.datosVinosRankeados = json
         ##opcionesReseña = ""
         ##tipoReseñaSeleccionada = ""
-        
+
     def opcionGenerarRankingDeVinos(self):
         pass
 
@@ -21,7 +23,6 @@ class GestorGenerarReporteRankingVino:
         resultadoValidacion = self.validarFechas(self, fechaInicio, fechaFin)
         reportes = self.getTiposReportes()
         PantallaGenerarReporteRankingVino.mostrarTipoReseña(self, reportes)
-        pass 
 
     def validarFechas(self, fechaInicio, fechaFin):
         if fechaInicio < fechaFin:
@@ -45,7 +46,7 @@ class GestorGenerarReporteRankingVino:
         #list[vino]: vinosFiltradosPorResena
     #Return: 
         #list: lista con los vinos filtrados que cumplen con lo solicitado
-    def buscarVinosConResenasPorTipoYFecha(self, fechaInicio: datetime, fechaFin: datetime, vinos: list):
+    def buscarVinosConResenasPorTipoYFecha(self, fechaInicio: datetime, fechaFin: datetime, vinos: list[Vino]):
         vinosFiltradosPorResena = list[Vino]
         for vino in vinos:
             estaEnPeriodoYEsSomelier = vino.obtenerResenas(self, fechaInicio, fechaFin)
@@ -96,7 +97,11 @@ class GestorGenerarReporteRankingVino:
         return json.dumps(datosVinosRankeados)
 
     def generarArchivo(self):
-        pass
+        # Convertir el JSON a un DataFrame de Pandas
+        df = pd.DataFrame(self.datosVinosRankeados)
+        
+        # Exportar el DataFrame a un archivo Excel
+        df.to_excel("ReporteRankingDeVinos.xlsx", index=False)
 
     def getTiposReportes(self):
         return self.tiposReportes

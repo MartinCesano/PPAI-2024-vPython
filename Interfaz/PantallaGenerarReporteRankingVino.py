@@ -17,11 +17,11 @@ class PantallaGenerarReporteRankingVino:
         label_reporte = tk.Label(self.frameGenerarReporteRankingVinos, text="Aquí va el contenido para generar el reporte de ranking de vinos", bg="white", font=font_style)
         label_reporte.pack(pady=20)
 
-        btn_volver = tk.Button(self.frameGenerarReporteRankingVinos, text="Volver", command=self.volver, font=font_style)
+        btn_volver = tk.Button(self.frameGenerarReporteRankingVinos, text="Cancelar", command=self.volver, font=font_style)
         btn_volver.pack(pady=10)
 
     def volver(self):
-        respuesta = messagebox.askyesno("Confirmar", "¿Estás seguro de volver a la ventana principal?")
+        respuesta = messagebox.askyesno("Confirmar", "Se perderan los datos del formulario \n ¿Estás seguro de volver al Menu principal de Bonvino?")
         if respuesta:
             self.frameGenerarReporteRankingVinos.pack_forget()
             self.master.frame_principal.pack(fill=tk.BOTH, expand=True)
@@ -38,13 +38,16 @@ class PantallaGenerarReporteRankingVino:
     def tomarSeleccionFechaFin(self):
         pass
 
-    def mostrarTipoReseña(self):
+    def mostrarTiposReporte(self,tiposReportes: list ):
         pass
     
-    def solicitarSeleccionTipoReseña(self):
+    def solicitarSeleccionTipoReporte(self):
         pass
 
-    def tomarSeleccionTipoReseña(self):
+    def tomarSeleccionTipoReporte(self):
+        pass
+    
+    def mostrarTipoVisualizacion(self,):
         pass
 
     def solicitarFormaVisualizacionReporte(self):
