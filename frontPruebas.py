@@ -1,6 +1,7 @@
 import tkinter as tk
 from Interfaz.PantallaGenerarReporteRankingVino import PantallaGenerarReporteRankingVino
 
+
 class VentanaPrincipal(tk.Tk):
     def __init__(self):
         super().__init__()
