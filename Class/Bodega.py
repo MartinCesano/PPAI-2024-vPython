@@ -1,4 +1,16 @@
+from typing import List
+from Provincia import Provincia
+from RegionVitivinicola import RegionVitivinicola 
+
 class Bodega:
+    
+    nombre: str
+    descripcion: str
+    historia: str
+    coordenadasUbicacion: List[str]
+    periodoActualizacion: Provincia 
+    regionVitivinicola: RegionVitivinicola
+
     def __init__(self, nombre, descripcion, historia, coordenadasUbicacion, periodoActualizacion):
         self.nombre = nombre
         self.descripcion = descripcion
@@ -6,7 +18,6 @@ class Bodega:
         self.coordenadasUbicacion = coordenadasUbicacion
         self.periodoActualizacion = periodoActualizacion
         
-
     def getNombre(self):
         return self.nombre
 

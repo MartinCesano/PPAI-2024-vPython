@@ -1,4 +1,5 @@
 from datetime import datetime
+from ..Interfaces.PantallaGenerarReporteRankingVino import PantallaGenerarReporteRankingVino
 
 class GestorGenerarReporteRankingVino:
     def __init__(self):
@@ -8,10 +9,12 @@ class GestorGenerarReporteRankingVino:
         pass
 
     def tomarSeleccionFechas(self, fechaInicio, fechaFin):
-        pass
+        resultadoValidacion = validarFechas(self, fechaInicio, fechaFin)
+        PantallaGenerarReporteRankingVino.mostrarTipoReseña(self, )
+        return 
 
     def validarFechas(self, fechaInicio, fechaFin):
-        if fechaInicio <  fechaFin:
+        if fechaInicio < fechaFin:
             return True
         else:
             return False

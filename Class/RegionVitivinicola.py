@@ -1,4 +1,11 @@
+from Provincia import Provincia
+
 class RegionVitivinicola:
+    
+    nombre: str
+    descripcion: str
+    provincia: Provincia
+    
     def __init__(self, nombre, descripcion, provincia):
         self.nombre = nombre
         self.descripcion = descripcion
