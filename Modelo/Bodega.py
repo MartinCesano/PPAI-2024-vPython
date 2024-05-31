@@ -1,5 +1,5 @@
 from typing import List
-from RegionVitivinicola import RegionVitivinicola 
+from Modelo.RegionVitivinicola import RegionVitivinicola 
 
 class Bodega:
     nombre: str

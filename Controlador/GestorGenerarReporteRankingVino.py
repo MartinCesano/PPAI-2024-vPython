@@ -1,11 +1,11 @@
 import json
 import pandas as pd
 from datetime import datetime
-from Interfaz.PantallaGenerarReporteRankingVino import PantallaGenerarReporteRankingVino
-from Modelo.Vino import Vino # type: ignore
+from Modelo.Vino import Vino 
 
 class GestorGenerarReporteRankingVino:
-    def __init__(self):
+    def __init__(self,pantalla):
+        self.pantalla = pantalla
         self.fechaInicio = datetime
         self.fechaFin = datetime
         self.tiposReportes = ["Reseñas normales", "Reseñas de Sommelier", "Reseñas de Amigos"]
@@ -20,22 +20,19 @@ class GestorGenerarReporteRankingVino:
 
     def opcionGenerarRankingDeVinos(self):
         self.pantalla.solicitarFechasInicioFin()
-        self.pantalla.tomarSeleccionFechaInicio()
-        self.pantalla.tomarSeleccionFechaFin()
         self.pantalla.mostrarTiposReportes(self.tiposReportes)
-        self.pantalla.solicitarSeleccionTipoReporte()
-        self.pantalla.tomarSeleccionTipoReporte()
-        self.pantalla.mostrarTipoVisualizacion(self.tipoVisualizacion)
-        self.pantalla.solicitarFormaVisualizacionReporte()
-        self.pantalla.tomarFormaVisualizacionReporte()
+        self.pantalla.solicitarFormaVisualizacion(self.tipoVisualizacion)
         self.pantalla.solicitarConfirmacionReporte()
-        self.pantalla.tomarConfirmacionReporte()
 
-    def tomarSeleccionFechas(self, fechaInicio, fechaFin):
-        resultadoValidacion = self.validarFechas(self, fechaInicio, fechaFin)
-        reportes = self.getTiposReportes()
-        PantallaGenerarReporteRankingVino.mostrarTipoReseña(self, reportes)
-
+    def tomarSeleccionFechaInicioFin(self,):
+        print("Fecha inicio y fin seleccionadas")
+    
+    def tomarSeleccionTipoReporte(self):
+        print("Tipo de reporte seleccionado")
+    
+    def tomarFormaVisualizacionReporte(self):
+        print("Forma de visualización seleccionada")
+'''
     def validarFechas(self, fechaInicio, fechaFin):
         if fechaInicio < fechaFin:
             return True
@@ -118,3 +115,4 @@ class GestorGenerarReporteRankingVino:
 
     def getTiposReportes(self):
         return self.tiposReportes
+'''

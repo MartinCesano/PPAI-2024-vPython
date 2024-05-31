@@ -1,5 +1,5 @@
 from typing import List
-from Provincia import Provincia
+from Modelo.Provincia import Provincia
 
 class Pais:
     
