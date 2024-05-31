@@ -1,4 +1,4 @@
-from Provincia import Provincia
+from .Provincia import Provincia
 
 class RegionVitivinicola:
     

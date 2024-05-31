@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import List
-from Varietal import Varietal
-from Bodega import Bodega
-from Resena import Resena
+from .Varietal import Varietal
+from .Bodega import Bodega
+from .Resena import Resena
 class Vino:
     
     nombre: str

@@ -1,5 +1,4 @@
 from datetime import datetime
-from Vino import Vino
 
 class Resena:
 
@@ -7,7 +6,6 @@ class Resena:
     esDeSommelier: bool
     fechaResena: datetime
     puntaje: float
-    vino: Vino
     
     def __init__(self, comentario: str, esDeSommelier: bool, fechaResena: datetime, puntaje: float):
         self.comentario = comentario
@@ -33,8 +31,6 @@ class Resena:
     def getFechaResena(self) -> datetime:
         return self.fechaResena
 
-    def getVino(self) -> Vino:
-        return self.vino
 
     def setComentario(self, comentario: str):
         self.comentario = comentario
@@ -48,5 +44,3 @@ class Resena:
     def setPuntaje(self, puntaje: float):
         self.puntaje = puntaje
 
-    def setVino(self, vino: Vino):
-        self.vino = vino

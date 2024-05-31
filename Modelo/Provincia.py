@@ -1,11 +1,9 @@
 from typing import List
-from Pais import Pais
-from RegionVitivinicola import RegionVitivinicola
+from .Pais import Pais
 
 class Provincia:
     nombre: str
     pais: Pais
-    region: List[RegionVitivinicola]
 
     def __init__(self, nombre: str, pais: Pais):
         self.nombre = nombre
@@ -17,17 +15,9 @@ class Provincia:
     def obtenerPais(self) -> Pais:
         return self.pais.getNombre()
 
-    def getRegiones(self) -> List[RegionVitivinicola]:
-        return self.region
 
     def setNombre(self, nombre: str):
         self.nombre = nombre
 
     def setPais(self, pais: Pais):
         self.pais = pais
-
-    def setRegiones(self, regiones: List[RegionVitivinicola]):
-        self.region = regiones
-
-    def agregarRegion(self, region: RegionVitivinicola):
-        self.region.append(region)
