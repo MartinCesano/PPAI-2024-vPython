@@ -6,18 +6,30 @@ from Modelo.Vino import Vino # type: ignore
 
 class GestorGenerarReporteRankingVino:
     def __init__(self):
-        self.tiposReportes = ["Reseñas normales", "Reseñas de Sommelier", "Reseñas de Amigos"]
-        self.tipoVisualizacion = ["Excel", "PDF", "Pantalla"] 
-        self.vinosFiltradosPorResena = list[Vino]
-        self.vinosFiltradosPorResenaConPromedio = []
         self.fechaInicio = datetime
         self.fechaFin = datetime
+        self.tiposReportes = ["Reseñas normales", "Reseñas de Sommelier", "Reseñas de Amigos"]
+        self.tipoReporteSeleccionado = str
+        self.tipoVisualizacion = ["Excel", "PDF", "Pantalla"] 
+        self.tipoVisualizacionSeleccionada = str
+        self.confirmacionReporte = bool
+        self.vinosFiltradosPorResena = list[Vino]
+        self.vinosFiltradosPorResenaConPromedio = list
+        self.vinosRankeados= list
         self.datosVinosRankeados = json
-        ##opcionesReseña = ""
-        ##tipoReseñaSeleccionada = ""
 
     def opcionGenerarRankingDeVinos(self):
-        pass
+        self.pantalla.solicitarFechasInicioFin()
+        self.pantalla.tomarSeleccionFechaInicio()
+        self.pantalla.tomarSeleccionFechaFin()
+        self.pantalla.mostrarTiposReportes(self.tiposReportes)
+        self.pantalla.solicitarSeleccionTipoReporte()
+        self.pantalla.tomarSeleccionTipoReporte()
+        self.pantalla.mostrarTipoVisualizacion(self.tipoVisualizacion)
+        self.pantalla.solicitarFormaVisualizacionReporte()
+        self.pantalla.tomarFormaVisualizacionReporte()
+        self.pantalla.solicitarConfirmacionReporte()
+        self.pantalla.tomarConfirmacionReporte()
 
     def tomarSeleccionFechas(self, fechaInicio, fechaFin):
         resultadoValidacion = self.validarFechas(self, fechaInicio, fechaFin)
@@ -102,6 +114,7 @@ class GestorGenerarReporteRankingVino:
         
         # Exportar el DataFrame a un archivo Excel
         df.to_excel("ReporteRankingDeVinos.xlsx", index=False)
+        return True
 
     def getTiposReportes(self):
         return self.tiposReportes
