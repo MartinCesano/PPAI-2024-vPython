@@ -32,6 +32,11 @@ class GestorGenerarReporteRankingVino:
     
     def tomarFormaVisualizacionReporte(self):
         print("Forma de visualización seleccionada")
+    
+    def tomarConfirmacionReporte(self):
+        print("Reporte confirmado.")
+        
+
 '''
     def validarFechas(self, fechaInicio, fechaFin):
         if fechaInicio < fechaFin:
