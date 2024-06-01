@@ -37,7 +37,7 @@ class GestorGenerarReporteRankingVino:
         print("Reporte confirmado.")
         
 
-'''
+
     def validarFechas(self, fechaInicio, fechaFin):
         if fechaInicio < fechaFin:
             return True
@@ -120,4 +120,3 @@ class GestorGenerarReporteRankingVino:
 
     def getTiposReportes(self):
         return self.tiposReportes
-'''
