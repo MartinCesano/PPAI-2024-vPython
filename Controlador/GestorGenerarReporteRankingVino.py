@@ -2,6 +2,7 @@ import json
 import pandas as pd
 from datetime import datetime
 from Modelo.Vino import Vino 
+from tkinter import messagebox
 
 class GestorGenerarReporteRankingVino:
     def __init__(self,pantalla):
@@ -16,27 +17,49 @@ class GestorGenerarReporteRankingVino:
         self.vinosFiltradosPorResena = list[Vino]
         self.vinosFiltradosPorResenaConPromedio = list
         self.vinosRankeados = list
+        self.vinosRanking10 = list
         self.datosVinosRankeados = json
-
+    
+    def convertir_fecha(self,fecha_str):
+        # Convertir la cadena de texto a un objeto datetime
+        fecha = datetime.strptime(fecha_str, '%m/%d/%y')
+        
+        # Formatear la fecha a "dd/mm/yy" y convertir a objeto datetime
+        fecha_formateada_str = fecha.strftime('%d/%m/%y')
+        fecha_formateada = datetime.strptime(fecha_formateada_str, '%d/%m/%y')
+        return  fecha_formateada
+    
     def opcionGenerarRankingDeVinos(self):
         self.pantalla.solicitarFechasInicioFin()
-        self.pantalla.mostrarTiposReportes(self.tiposReportes)
+        self.pantalla.mostrarYSolicitarTiposReportes(self.tiposReportes)
         self.pantalla.solicitarFormaVisualizacion(self.tipoVisualizacion)
         self.pantalla.solicitarConfirmacionReporte()
 
-    def tomarSeleccionFechaInicioFin(self,):
-        print("Fecha inicio y fin seleccionadas")
+    def tomarSeleccionFechaInicioFin(self,fechaInicio, fechaFin):
+        if self.validarFechas(self.convertir_fecha(fechaInicio), self.convertir_fecha(fechaFin)):
+            self.fechaInicio = self.convertir_fecha(fechaInicio)
+            self.fechaFin = self.convertir_fecha(fechaFin)
+
+            print("Fechas seleccionadas: ", self.fechaInicio, self.fechaFin)
+        else:
+            messagebox.showerror("Error", "La fecha de inicio debe ser menor a la fecha de fin.")
     
-    def tomarSeleccionTipoReporte(self):
-        print("Tipo de reporte seleccionado")
+    def tomarSeleccionTipoReporte(self, tipoReporteSeleccionado: str):
+        print("Tipo de reporte seleccionado: ", tipoReporteSeleccionado)
+        self.tipoReporteSeleccionado = tipoReporteSeleccionado
     
-    def tomarFormaVisualizacionReporte(self):
-        print("Forma de visualización seleccionada")
+    def tomarFormaVisualizacionReporte(self, tipoVisualizacionSeleccionada: str):
+        print("Forma de visualización seleccionada: ", tipoVisualizacionSeleccionada)
+        self.tipoVisualizacionSeleccionada = tipoVisualizacionSeleccionada
     
     def tomarConfirmacionReporte(self):
-        print("Reporte confirmado.")
-        
-
+        print("Reporte generado con éxito.")
+        self.vinosFiltradosPorResena = self.buscarVinosConResenasPorTipoYFecha(self.fechaInicio, self.fechaFin, self.vinosFiltradosPorResena)
+        self.vinosFiltradosPorResenaConPromedio = self.calcularCalificacionPromedio(self.vinosFiltradosPorResena)
+        self.vinosRankeados = self.ordenarVinosPorRanking(self.vinosFiltradosPorResenaConPromedio)
+        self.vinosRanking10 = self.tomar10PrimerosVinosCalificados(self.vinosRankeados)
+        self.datosVinosRankeados = self.buscarDatos10MejoresVinos(self.vinosRanking10)
+        self.generarArchivo()
 
     def validarFechas(self, fechaInicio, fechaFin):
         if fechaInicio < fechaFin:
@@ -45,9 +68,6 @@ class GestorGenerarReporteRankingVino:
             return False
 
     def tomarSeleccionTipoResena(self):
-        pass
-
-    def tomarFormaVisualizacionReporte(self):
         pass
 
     def tomarConfirmacionReporte(self):
@@ -87,17 +107,17 @@ class GestorGenerarReporteRankingVino:
     
 #Toma la lista vinos filtrados por resena con promedio y selecciona los 10 mejores vinos  
     def tomar10PrimerosVinosCalificados(self, vinosFiltradosPorResenaConPromedio: list):
-        vinosRankeados = vinosFiltradosPorResenaConPromedio[:10]
-        return vinosRankeados
+        vinosRanking10 = vinosFiltradosPorResenaConPromedio[:10]
+        return vinosRanking10
 
 #Toma la lista de los 10 vinos mejores rankeados y busca los datos
     #Args: 
         #list: vinosRankeados
     #Return: 
         #json: Con los datos de los 10 vinos mejores rakeados
-    def buscarDatos10MejoresVinos(self, vinosRankeados: list):
+    def buscarDatos10MejoresVinos(self, vinosRanking10: list):
         datosVinosRankeados = []
-        for vino in vinosRankeados:
+        for vino in vinosRanking10:
             datos_vino = {
                 "nombreVino": vino.getNombre(),
                 "varietales": vino.obtenerVarietal(),
@@ -120,3 +140,5 @@ class GestorGenerarReporteRankingVino:
 
     def getTiposReportes(self):
         return self.tiposReportes
+    
+   

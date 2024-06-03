@@ -10,9 +10,6 @@ class PantallaGenerarReporteRankingVino:
         self.gestor = None
 
         self.frameGenerarReporteRankingVinos = tk.Frame(self.master, bg="white")
-
-        
-
         self.frameGenerarReporteRankingVinos.pack(fill=tk.BOTH, expand=True)
 
         self.canvas = tk.Canvas(self.frameGenerarReporteRankingVinos, bg="white")
@@ -96,7 +93,7 @@ class PantallaGenerarReporteRankingVino:
         btn_guardar_fechas = tk.Button(self.formulario, text="Guardar Fechas", command=self.tomarSeleccionFechaInicioFin, font=font_style)
         btn_guardar_fechas.grid(row=5, column=1, pady=5, sticky="ew")
 
-    def mostrarTiposReportes(self, tiposReportes: list):
+    def mostrarYSolicitarTiposReportes(self, tiposReportes: list):
         font_style = ("Helvetica", 12)  # Cambiar el tamaño de la fuente
 
         # Combo box para tipos de reportes
@@ -106,7 +103,7 @@ class PantallaGenerarReporteRankingVino:
         self.combo_tipos_reporte.grid(row=7, column=1, padx=10, pady=2, sticky="ew")
 
         # Botón para guardar selección de tipo de reporte
-        btn_guardar_tipo_reporte = tk.Button(self.formulario, text="Guardar Tipo Reporte", command=self.tomarSeleccionTipoReporte(), font=font_style)
+        btn_guardar_tipo_reporte = tk.Button(self.formulario, text="Guardar Tipo Reporte", command=self.tomarSeleccionTipoReporte, font=font_style)
         btn_guardar_tipo_reporte.grid(row=8, column=1, pady=5, sticky="ew")
 
     def solicitarFormaVisualizacion(self, tipoVisualizacion: list):
@@ -141,13 +138,13 @@ class PantallaGenerarReporteRankingVino:
         self.volver()
 
     def tomarSeleccionFechaInicioFin(self):
-        self.gestor.tomarSeleccionFechaInicioFin()
+        self.gestor.tomarSeleccionFechaInicioFin(self.calendario_inicio.get_date(), self.calendario_fin.get_date())
 
     def tomarSeleccionTipoReporte(self):
-        self.gestor.tomarSeleccionTipoReporte()
+        self.gestor.tomarSeleccionTipoReporte(self.combo_tipos_reporte.get())
 
     def tomarFormaVisualizacionReporte(self):
-        self.gestor.tomarFormaVisualizacionReporte()
+        self.gestor.tomarFormaVisualizacionReporte(self.combo_visualizacion.get())
     
     def tomarConfirmacionReporte(self):
         self.gestor.tomarConfirmacionReporte()
