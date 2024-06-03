@@ -1,22 +1,17 @@
 from typing import List
-from Pais import Pais
-from RegionVitivinicola import RegionVitivinicola
+from Modelo.RegionVitivinicola import RegionVitivinicola
 
 class Provincia:
     nombre: str
-    pais: Pais
     region: List[RegionVitivinicola]
 
-    def __init__(self, nombre: str, pais: Pais):
+    def __init__(self, nombre: str, region: List[RegionVitivinicola]):   
         self.nombre = nombre
-        self.pais = pais
+        self.region = region
 
     def getNombre(self) -> str:
         return self.nombre
 
-    def obtenerPais(self) -> Pais:
-        nombrePais = self.pais.getNombre()
-        return self.pais
 
     def getRegiones(self) -> List[RegionVitivinicola]:
         return self.region
@@ -24,8 +19,6 @@ class Provincia:
     def setNombre(self, nombre: str):
         self.nombre = nombre
 
-    def setPais(self, pais: Pais):
-        self.pais = pais
 
     def setRegiones(self, regiones: List[RegionVitivinicola]):
         self.region = regiones

@@ -3,9 +3,11 @@ import pandas as pd
 from datetime import datetime
 from Modelo.Vino import Vino 
 from tkinter import messagebox
+from typing import List, Tuple
+
 
 class GestorGenerarReporteRankingVino:
-    def __init__(self,pantalla):
+    def __init__(self,pantalla, vinos):
         self.pantalla = pantalla
         self.fechaInicio = datetime
         self.fechaFin = datetime
@@ -14,6 +16,7 @@ class GestorGenerarReporteRankingVino:
         self.tipoVisualizacion = ["Excel", "PDF", "Pantalla"] 
         self.tipoVisualizacionSeleccionada = str
         self.confirmacionReporte = bool
+        self.vinos = vinos
         self.vinosFiltradosPorResena = list[Vino]
         self.vinosFiltradosPorResenaConPromedio = list
         self.vinosRankeados = list
@@ -54,9 +57,9 @@ class GestorGenerarReporteRankingVino:
     
     def tomarConfirmacionReporte(self):
         print("Reporte generado con éxito.")
-        self.vinosFiltradosPorResena = self.buscarVinosConResenasPorTipoYFecha(self.fechaInicio, self.fechaFin, self.vinosFiltradosPorResena)
+        self.vinosFiltradosPorResena = self.buscarVinosConResenasPorTipoYFecha(self.fechaInicio, self.fechaFin, self.vinos)
         self.vinosFiltradosPorResenaConPromedio = self.calcularCalificacionPromedio(self.vinosFiltradosPorResena)
-        self.vinosRankeados = self.ordenarVinosPorRanking(self.vinosFiltradosPorResenaConPromedio)
+        self.vinosRankeados = self.ordenarVinosPorRanking(self.vinosFiltradosPorResenaConPromedio, self.fechaInicio, self.fechaFin)
         self.vinosRanking10 = self.tomar10PrimerosVinosCalificados(self.vinosRankeados)
         self.datosVinosRankeados = self.buscarDatos10MejoresVinos(self.vinosRanking10)
         self.generarArchivo()
@@ -67,12 +70,6 @@ class GestorGenerarReporteRankingVino:
         else:
             return False
 
-    def tomarSeleccionTipoResena(self):
-        pass
-
-    def tomarConfirmacionReporte(self):
-        pass
-
 #Busca y guarda los vinos que se encuentran en el rango de fecha seleccionado y que son de Sommelier
     #Args: 
         #datetime: fechaInicio, 
@@ -81,9 +78,10 @@ class GestorGenerarReporteRankingVino:
     #Return: 
         #list: lista con los vinos filtrados que cumplen con lo solicitado
     def buscarVinosConResenasPorTipoYFecha(self, fechaInicio: datetime, fechaFin: datetime, vinos: list[Vino]):
-        vinosFiltradosPorResena = list[Vino]
-        for vino in vinos:
-            estaEnPeriodoYEsSomelier = vino.obtenerResenas(self, fechaInicio, fechaFin)
+        vinosFiltradosPorResena = []  # Inicializar como una lista vacía
+        for i in range(len(vinos)):
+            vino = vinos[i]
+            estaEnPeriodoYEsSomelier = vino.obtenerResenas(fechaInicio, fechaFin)
             if estaEnPeriodoYEsSomelier:
                 vinosFiltradosPorResena.append(vino)
         return vinosFiltradosPorResena
@@ -96,15 +94,15 @@ class GestorGenerarReporteRankingVino:
     def calcularCalificacionPromedio(self, vinosFiltradosPorResena: list):
         vinosFiltradosPorResenaConPromedio = []
         for vino in vinosFiltradosPorResena:
-            puntaje = vino.calcularRanking() ##devuelve el promedio de las calificaciones
+            puntaje = vino.calcularRanking(self.fechaInicio,self.fechaFin) ##devuelve el promedio de las calificaciones
             vinosFiltradosPorResenaConPromedio.append((vino, puntaje))
         return vinosFiltradosPorResenaConPromedio
 
 #Toma la lista de vinos filtrados por reseña con promedio y los ordena segun el ranking    
-    def ordenarVinosPorRanking(self, vinosFiltradosPorResenaConPromedio: list):
-        vinosFiltradosPorResenaConPromedio.sort(key=lambda x: x[0], reverse=True)
-        return vinosFiltradosPorResenaConPromedio
+
     
+    def ordenarVinosPorRanking(self, vinos: List[Tuple['Vino', float]], fechaInicio: datetime, fechaFin: datetime) -> List['Vino']:
+        return sorted(vinos, key=lambda vino: vino[1], reverse=True)
 #Toma la lista vinos filtrados por resena con promedio y selecciona los 10 mejores vinos  
     def tomar10PrimerosVinosCalificados(self, vinosFiltradosPorResenaConPromedio: list):
         vinosRanking10 = vinosFiltradosPorResenaConPromedio[:10]
@@ -115,24 +113,28 @@ class GestorGenerarReporteRankingVino:
         #list: vinosRankeados
     #Return: 
         #json: Con los datos de los 10 vinos mejores rakeados
-    def buscarDatos10MejoresVinos(self, vinosRanking10: list):
+    def buscarDatos10MejoresVinos(self, vinosRanking10: List[Tuple['Vino', float]]):
         datosVinosRankeados = []
-        for vino in vinosRanking10:
+        for vino, calificacion in vinosRanking10:
             datos_vino = {
-                "nombreVino": vino.getNombre(),
+                "nombreVino": vino.getNombreVino(),
                 "varietales": vino.obtenerVarietal(),
-                "precioVino": vino.getPrecio(),
+                "precioVino": vino.getPrecioVino(),
                 "nombreBodega": vino.obtenerBodega().getNombre(),
                 "nombreRegion": vino.obtenerBodega().getRegionVitivinicola().getnombre(),
                 "nombreProvincia": vino.obtenerBodega().getRegionVitivinicola().getProvincia().getNombre(),
                 "nombrePais": vino.obtenerBodega().getRegionVitivinicola().getProvincia().getPais().getNombre(),
+                "calificacion": calificacion
             }
             datosVinosRankeados.append(datos_vino)
         return json.dumps(datosVinosRankeados)
-
+    
     def generarArchivo(self):
-        # Convertir el JSON a un DataFrame de Pandas
-        df = pd.DataFrame(self.datosVinosRankeados)
+        # Convertir el JSON a una lista de diccionarios
+        datos_vinos_rankeados = json.loads(self.datosVinosRankeados)
+        
+        # Convertir la lista de diccionarios a un DataFrame de Pandas
+        df = pd.DataFrame(datos_vinos_rankeados)
         
         # Exportar el DataFrame a un archivo Excel
         df.to_excel("ReporteRankingDeVinos.xlsx", index=False)

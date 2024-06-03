@@ -16,8 +16,7 @@ class Resena:
         self.puntaje = puntaje
 
     def estaEnPeriodo(self, fechaInicio: datetime, fechaFin: datetime):
-        return fechaInicio <= self.fechaResena <= fechaFin
-
+        return (fechaInicio <= self.fechaResena <= fechaFin)
     def sosDeSommelier(self):
         return self.esDeSommelier
 

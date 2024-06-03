@@ -17,7 +17,7 @@ class Vino:
     resenas: list[Resena]
     
     
-    def __init__(self, nombre: str, añada: int, imagenEtiqueta: str, notaDeCataBodega: float, precio: float, bodega: Bodega, varietal: Varietal):
+    def __init__(self, nombre: str, añada: int, imagenEtiqueta: str, notaDeCataBodega: float, precio: float, bodega: Bodega, varietal: list[Varietal], resenas: list[Resena]):
         self.nombre = nombre
         self.añada = añada
         self.imagenEtiqueta = imagenEtiqueta
@@ -25,6 +25,7 @@ class Vino:
         self.precio = precio
         self.bodega = bodega
         self.varietal = varietal
+        self.resenas = resenas
 
 #calcularRanking: Obtiene las reseñas que estan en el periodo de fecha ingresado.
     #Args: 
@@ -33,7 +34,8 @@ class Vino:
     #Return: 
         #boolean: devuelve un true si esta en periodo y es de sommelier, false en caso contrario.
     def obtenerResenas(self, fechaInicio:datetime, fechaFin:datetime) -> bool:
-        for resena in self.resenas:
+        for i in range(len(self.resenas)):
+            resena = self.resenas[i]
             if resena.estaEnPeriodo(fechaInicio,fechaFin) and resena.sosDeSommelier():
                 return True
         return False
@@ -43,11 +45,11 @@ class Vino:
         #ninguno
     #Return: 
         #int: el promedio de las calificaciones del vino en el periodo de fecha actual.
-    def calcularRanking(self):
+    def calcularRanking(self, fechaInicio:datetime, fechaFin:datetime) -> float:
         puntaje = 0
         contadorReseña = 0
         for resena in self.resenas:
-            if resena.estaEnPeriodo() and resena.sosDeSommelier():
+            if resena.estaEnPeriodo(fechaInicio,fechaFin) and resena.sosDeSommelier():
                 contadorReseña += 1
                 puntaje += resena.getPuntaje()
         if contadorReseña != 0:

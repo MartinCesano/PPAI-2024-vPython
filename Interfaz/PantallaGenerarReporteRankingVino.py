@@ -147,5 +147,6 @@ class PantallaGenerarReporteRankingVino:
         self.gestor.tomarFormaVisualizacionReporte(self.combo_visualizacion.get())
     
     def tomarConfirmacionReporte(self):
+        messagebox.showinfo("Confirmación", "El reporte se ha generado correctamente.")
         self.gestor.tomarConfirmacionReporte()
 
