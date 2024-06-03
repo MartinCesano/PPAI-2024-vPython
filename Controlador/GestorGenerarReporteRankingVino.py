@@ -15,7 +15,7 @@ class GestorGenerarReporteRankingVino:
         self.confirmacionReporte = bool
         self.vinosFiltradosPorResena = list[Vino]
         self.vinosFiltradosPorResenaConPromedio = list
-        self.vinosRankeados= list
+        self.vinosRankeados = list
         self.datosVinosRankeados = json
 
     def opcionGenerarRankingDeVinos(self):
